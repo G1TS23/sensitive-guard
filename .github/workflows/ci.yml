@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -19,3 +21,29 @@ jobs:
         run: claude plugin validate .
       - name: Run plugin tests
         run: claude plugin test .
+
+  version-bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Require a version bump when plugin code changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -z "$BASE_SHA" ] || [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ]; then
+            echo "No base commit to compare against, skipping."
+            exit 0
+          fi
+          if git diff --quiet "$BASE_SHA" HEAD -- hooks types; then
+            echo "No plugin code change (hooks/, types/), no bump required."
+            exit 0
+          fi
+          old=$(git show "$BASE_SHA:.claude-plugin/plugin.json" | jq -r .version)
+          new=$(jq -r .version .claude-plugin/plugin.json)
+          echo "version: $old -> $new"
+          if [ "$old" = "$new" ] || [ "$(printf '%s\n%s\n' "$old" "$new" | sort -V | tail -1)" != "$new" ]; then
+            echo "::error file=.claude-plugin/plugin.json::hooks/ or types/ changed: increase the version in plugin.json (was $old)."
+            exit 1
+          fi
