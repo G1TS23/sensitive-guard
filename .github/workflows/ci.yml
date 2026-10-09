@@ -16,7 +16,9 @@ jobs:
         with:
           node-version: 22
       - name: Install Claude Code
-        run: npm install -g --ignore-scripts @anthropic-ai/claude-code@2.1.292
+        run: |
+          npm install -g --ignore-scripts @anthropic-ai/claude-code@2.1.292
+          node "$(npm root -g)/@anthropic-ai/claude-code/install.cjs"
       - name: Validate plugin
         run: claude plugin validate .
       - name: Run plugin tests
