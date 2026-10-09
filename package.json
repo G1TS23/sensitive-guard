@@ -1,0 +1,8 @@
+{
+  "name": "sensitive-guard-ci",
+  "private": true,
+  "description": "Outils de CI de sensitive-guard (ne fait pas partie du plugin).",
+  "devDependencies": {
+    "@anthropic-ai/claude-code": "2.1.292"
+  }
+}
