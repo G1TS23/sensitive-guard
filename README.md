@@ -19,14 +19,24 @@ Les règles sont la liste `RULES` en tête de `hooks/register.ts` : ajoutez ou r
 
 ## Installation
 
-Dans une session Claude Code (CLI ou application desktop), à saisir au prompt :
+Dans une session Claude Code, à saisir au prompt du terminal, une seule commande suffit :
+
+```
+/plugin install sensitive-guard --marketplace G1TS23/sensitive-guard
+```
+
+Claude Code demande alors `Add marketplace?` : répondez `y`, puis choisissez la portée (utilisateur pour l'avoir dans toutes vos sessions, ou projet). Le message `Installed sensitive-guard. Plugin is now active.` confirme l'installation, et les hooks sont actifs tout de suite, sans rechargement.
+
+Cette commande est celle d'un terminal : l'onglet Code de l'application desktop répond qu'elle n'y est pas disponible. Installez d'abord le mod depuis un terminal avec la portée utilisateur : il se charge ensuite aussi dans les sessions locales de l'application desktop.
+
+Variante en deux étapes, équivalente :
 
 ```
 /plugin marketplace add G1TS23/sensitive-guard
 /plugin install sensitive-guard@sensitive-guard
 ```
 
-Choisissez la portée (utilisateur pour l'avoir dans toutes vos sessions, ou projet). Rechargez avec `/reload-plugins` si le mod n'apparaît pas, ou redémarrez Claude Code.
+Si le mod n'apparaît pas, rechargez avec `/reload-plugins` ou redémarrez Claude Code.
 
 Pour l'essayer sans l'installer, depuis le dossier cloné :
 
