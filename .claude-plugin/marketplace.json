@@ -1,5 +1,13 @@
 {
   "name": "sensitive-guard",
-  "owner": { "name": "Olivier Falahi" },
-  "plugins": [{ "name": "sensitive-guard", "source": "./" }]
+  "owner": {
+    "name": "Olivier Falahi"
+  },
+  "description": "Mods Claude Code d'Olivier Falahi : garde-fous et utilitaires de session.",
+  "plugins": [
+    {
+      "name": "sensitive-guard",
+      "source": "./"
+    }
+  ]
 }
