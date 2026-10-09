@@ -22,10 +22,11 @@ Les règles sont la liste `RULES` en tête de `hooks/register.ts` : ajoutez ou r
 Dans une session Claude Code (CLI ou application desktop), à saisir au prompt :
 
 ```
-/plugin install sensitive-guard --marketplace <votre-compte>/sensitive-guard
+/plugin marketplace add G1TS23/sensitive-guard
+/plugin install sensitive-guard@sensitive-guard
 ```
 
-Répondez `y` pour ajouter la marketplace, puis choisissez la portée (utilisateur ou projet). Rechargez avec `/reload-plugins` si le mod n'apparaît pas, ou redémarrez Claude Code.
+Choisissez la portée (utilisateur pour l'avoir dans toutes vos sessions, ou projet). Rechargez avec `/reload-plugins` si le mod n'apparaît pas, ou redémarrez Claude Code.
 
 Pour l'essayer sans l'installer, depuis le dossier cloné :
 
