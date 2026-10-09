@@ -7,7 +7,7 @@ set -euo pipefail
 tag="$1"
 prev=$(git describe --tags --abbrev=0 --exclude "$tag" HEAD 2>/dev/null || true)
 range="HEAD"
-[ -n "$prev" ] && range="$prev..HEAD"
+[[ -n "$prev" ]] && range="$prev..HEAD"
 
 dir=$(mktemp -d)
 trap 'rm -rf "$dir"' EXIT
@@ -24,17 +24,18 @@ git log --no-merges --pretty=$'%h\t%s' "$range" | while IFS=$'\t' read -r sha su
     ci|chore|build|test|refactor|style) key=maintenance ;;
     *) key=other ;;
   esac
-  [ -n "$bang" ] && key=breaking
+  [[ -n "$bang" ]] && key=breaking
   line="- "
-  [ -n "$scope" ] && line="$line**$scope** : "
+  [[ -n "$scope" ]] && line="$line**$scope** : "
   printf '%s%s (`%s`)\n' "$line" "$desc" "$sha" >> "$dir/$key"
 done
 
 echo "## Quoi de neuf dans $tag"
 section() {
-  [ -s "$dir/$1" ] || return 0
-  printf '\n### %s\n\n' "$2"
-  cat "$dir/$1"
+  local key="$1" title="$2"
+  [[ -s "$dir/$key" ]] || return 0
+  printf '\n### %s\n\n' "$title"
+  cat "$dir/$key"
 }
 section breaking "⚠️ Changements majeurs"
 section feat "✨ Nouveautés"
@@ -44,6 +45,6 @@ section docs "📝 Documentation"
 section maintenance "🔧 CI et maintenance"
 section other "Autres changements"
 
-if [ -n "${GITHUB_REPOSITORY:-}" ] && [ -n "$prev" ]; then
+if [[ -n "${GITHUB_REPOSITORY:-}" && -n "$prev" ]]; then
   printf '\n**Historique complet** : https://github.com/%s/compare/%s...%s\n' "$GITHUB_REPOSITORY" "$prev" "$tag"
 fi
