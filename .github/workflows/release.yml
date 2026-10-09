@@ -15,14 +15,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Create tag and release for the current plugin version
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           version=$(jq -r .version .claude-plugin/plugin.json)
           tag="v$version"
+          .github/scripts/release-notes.sh "$tag" > "$RUNNER_TEMP/notes.md"
           if gh release view "$tag" >/dev/null 2>&1; then
-            echo "Release $tag already exists, nothing to do."
+            if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+              gh release edit "$tag" --notes-file "$RUNNER_TEMP/notes.md"
+            else
+              echo "Release $tag already exists, nothing to do."
+            fi
             exit 0
           fi
-          gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --generate-notes
+          gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --notes-file "$RUNNER_TEMP/notes.md"
