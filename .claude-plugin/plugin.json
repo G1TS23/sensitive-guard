@@ -1,0 +1,7 @@
+{
+  "name": "sensitive-guard",
+  "version": "0.2.0",
+  "author": { "name": "Olivier Falahi" },
+  "description": "Garde-fou : suspend les commandes Bash sensibles et demande Proceed / Cancel dans un panneau avant exécution.",
+  "types": "./types/index.d.ts"
+}

@@ -1,0 +1,5 @@
+{
+  "name": "sensitive-guard",
+  "owner": { "name": "Olivier Falahi" },
+  "plugins": [{ "name": "sensitive-guard", "source": "./" }]
+}
